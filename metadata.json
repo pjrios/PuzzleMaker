@@ -1,0 +1,5 @@
+{
+  "name": "LexiPuzzle",
+  "description": "A client-side vocabulary puzzle generator that creates printable Word Searches, Crosswords, Anagrams, and Flashcards directly in the browser.",
+  "requestFramePermissions": []
+}

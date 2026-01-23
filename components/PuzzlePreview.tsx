@@ -170,14 +170,14 @@ const PuzzlePage: React.FC<{
     return (
       <div className="w-full space-y-6">
         {vocabList.map((w, i) => (
-           <div key={w.id} className="flex gap-4 items-center border-b border-dotted border-gray-300 pb-2 print-break-inside-avoid">
-             <div className="w-1/4 font-mono text-lg tracking-widest text-right font-bold uppercase">
+           <div key={w.id} className="flex gap-4 items-start border-b border-dotted border-gray-300 pb-2 print-break-inside-avoid">
+             <div className="w-1/4 min-w-0 font-mono text-lg tracking-widest text-right font-bold uppercase break-all whitespace-normal leading-tight">
                {scrambleWord(cleanWord(w.word), seed + i)}
              </div>
-             <div className="w-1/2 flex flex-col justify-center">
-                <span className="text-sm italic text-gray-600">{w.definition}</span>
+             <div className="w-1/2 min-w-0 flex flex-col justify-center">
+                <span className="text-sm italic text-gray-600 break-words">{w.definition}</span>
              </div>
-             <div className="w-1/4 border-b border-black h-8 flex items-end px-2 text-primary font-bold">
+             <div className="w-1/4 min-w-0 border-b border-black h-8 flex items-end px-2 text-primary font-bold">
                 {showAnswerKey ? w.word : ''}
              </div>
            </div>

@@ -42,7 +42,7 @@ body {
   }
   .print-page {
     width: 8.5in;
-    min-height: 11in;
+    height: 11in;
     margin: 0 auto !important;
     box-shadow: none !important;
   }
@@ -90,4 +90,36 @@ body {
 .print-capture .print-page {
   margin: 0 !important;
   box-shadow: none !important;
+  width: 8.5in !important;
+  height: 11in !important;
+}
+
+.print-capture .print-page-wordsearch .page-inner {
+  padding: 0.5in !important;
+}
+
+.print-capture .print-page-wordsearch .page-header {
+  padding-bottom: 0.15in;
+  margin-bottom: 0.2in;
+}
+
+.print-capture .print-page-wordsearch .page-header-top {
+  margin-bottom: 0.15in;
+  min-height: 3.5rem;
+}
+
+.print-capture .print-page-wordsearch .wordsearch-grid {
+  max-width: 6in;
+  margin-bottom: 0.35in;
+}
+
+.print-capture .print-page-wordsearch .wordsearch-cell {
+  font-size: 0.7rem;
+}
+
+.print-capture .print-page-wordsearch .wordbank-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.15in;
+  font-size: 0.7rem;
+  line-height: 1.1;
 }

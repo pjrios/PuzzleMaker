@@ -24,7 +24,7 @@ const PuzzlePage: React.FC<{
 
     return (
       <div className="flex flex-col items-center w-full">
-        <div className="grid gap-0 border-2 border-black mb-8 w-full max-w-[7in]"
+        <div className="wordsearch-grid grid gap-0 border-2 border-black mb-8 w-full max-w-[7in]"
              style={{ gridTemplateColumns: `repeat(${settings.gridSize}, minmax(0, 1fr))` }}>
           {grid.map((row, y) => (
             row.map((char, x) => {
@@ -37,7 +37,7 @@ const PuzzlePage: React.FC<{
               
               return (
                 <div key={`${x}-${y}`} 
-                     className={`aspect-square flex items-center justify-center font-mono text-base sm:text-lg uppercase border border-gray-200 
+                     className={`wordsearch-cell aspect-square flex items-center justify-center font-mono text-base sm:text-lg uppercase border border-gray-200 
                      ${isAnswer ? 'bg-yellow-200 text-black font-bold' : ''}`}>
                   {char}
                 </div>
@@ -47,9 +47,9 @@ const PuzzlePage: React.FC<{
         </div>
 
         {showWordBank && (
-          <div className="w-full">
+          <div className="wordbank w-full">
             <h3 className="font-bold border-b-2 border-black mb-4 pb-1">Word Bank</h3>
-            <div className="grid grid-cols-3 gap-4 text-sm">
+            <div className="wordbank-grid grid grid-cols-3 gap-4 text-sm">
               {vocabList.map(w => (
                 <div key={w.id} className="flex items-center gap-2">
                   <div className="w-4 h-4 border border-black"></div>
@@ -188,14 +188,16 @@ const PuzzlePage: React.FC<{
 
   const renderFlashcards = () => {
     return (
-      <div className="w-full grid grid-cols-2 gap-4">
+      <div className="w-full flex-1 flex">
+        <div className="w-full grid grid-cols-2 grid-rows-5 gap-4 flex-1">
         {vocabList.map(w => (
-           <div key={w.id} className="border-2 border-dashed border-gray-400 p-4 h-48 flex flex-col justify-between print-break-inside-avoid">
+           <div key={w.id} className="border-2 border-dashed border-gray-400 p-4 h-full flex flex-col justify-between print-break-inside-avoid">
               <div className="text-center border-b pb-2 mb-2 font-bold text-xl">{w.word}</div>
               <div className="text-center text-sm flex-1 flex items-center justify-center">{w.definition}</div>
               <div className="text-[10px] text-gray-400 text-center uppercase tracking-widest">Fold Here</div>
            </div>
         ))}
+        </div>
       </div>
     );
   };
@@ -248,51 +250,52 @@ const PuzzlePage: React.FC<{
   };
 
   return (
-    <div className="print-page bg-white shadow-2xl mx-auto my-8 print:shadow-none print:m-0 print:w-full">
-      <div className="w-[8.5in] min-h-[11in] p-[0.75in] mx-auto bg-white flex flex-col items-center">
+    <div className={`print-page print-page-${type} bg-white shadow-2xl mx-auto my-8 print:shadow-none print:m-0`}>
+      <div className="page-inner w-full h-full p-[0.75in] box-border mx-auto bg-white flex flex-col items-center">
         
-        {/* Header with optional Logo */}
-        <div className="w-full border-b-2 border-black pb-4 mb-6">
-          <div className="flex items-center mb-4 relative min-h-[5rem]">
-             {logoUrl && (
-               <div className="absolute left-0 top-0 bottom-0 flex items-center">
-                 <img 
-                   src={logoUrl} 
-                   alt="Logo" 
-                   className="h-20 w-auto object-contain"
-                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                 />
+        {type !== 'flashcards' && (
+          <div className="page-header w-full border-b-2 border-black pb-4 mb-6">
+            <div className="page-header-top flex items-center mb-4 relative min-h-[5rem]">
+               {logoUrl && (
+                 <div className="absolute left-0 top-0 bottom-0 flex items-center">
+                   <img 
+                     src={logoUrl} 
+                     alt="Logo" 
+                     className="h-20 w-auto object-contain"
+                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                   />
+                 </div>
+               )}
+               <div className="w-full text-center px-24"> {/* Padding to prevent text overlapping logo */}
+                  <h2 className="text-xl font-bold uppercase tracking-wider">{institution}</h2>
                </div>
-             )}
-             <div className="w-full text-center px-24"> {/* Padding to prevent text overlapping logo */}
-                <h2 className="text-xl font-bold uppercase tracking-wider">{institution}</h2>
-             </div>
-          </div>
-          
-          <div className="flex justify-between text-sm border-b border-gray-300 pb-2 mb-4">
-            <div><span className="font-bold">Class:</span> {course}</div>
-            <div><span className="font-bold">Term:</span> {trimester}</div>
-            <div><span className="font-bold">Group:</span> {groups}</div>
-          </div>
+            </div>
+            
+            <div className="flex justify-between text-sm border-b border-gray-300 pb-2 mb-4">
+              <div><span className="font-bold">Class:</span> {course}</div>
+              <div><span className="font-bold">Term:</span> {trimester}</div>
+              <div><span className="font-bold">Group:</span> {groups}</div>
+            </div>
 
-          <div className="flex justify-between items-end">
-            <div className="flex-1">
-              {/* Ensure title size matches institution size exactly (text-xl uppercase tracking-wider) */}
-              <h1 className="text-xl font-bold uppercase tracking-wider">{title || typeTitles[type] || 'Activity'}</h1>
-              <p className="text-sm mt-1 uppercase tracking-widest text-gray-600">{typeTitles[type]}</p>
-            </div>
-            <div className="text-right text-sm w-1/3">
-               <div className="mb-2 border-b border-black border-dotted pb-1 flex justify-between">
-                 <span>Name:</span> 
-                 <span className="w-32"></span>
-               </div>
-               <div className="border-b border-black border-dotted pb-1 flex justify-between">
-                 <span>Date:</span>
-                 <span className="w-32"></span>
-               </div>
+            <div className="flex justify-between items-end">
+              <div className="flex-1">
+                {/* Ensure title size matches institution size exactly (text-xl uppercase tracking-wider) */}
+                <h1 className="text-xl font-bold uppercase tracking-wider">{title || typeTitles[type] || 'Activity'}</h1>
+                <p className="text-sm mt-1 uppercase tracking-widest text-gray-600">{typeTitles[type]}</p>
+              </div>
+              <div className="text-right text-sm w-1/3">
+                 <div className="mb-2 border-b border-black border-dotted pb-1 flex justify-between">
+                   <span>Name:</span> 
+                   <span className="w-32"></span>
+                 </div>
+                 <div className="border-b border-black border-dotted pb-1 flex justify-between">
+                   <span>Date:</span>
+                   <span className="w-32"></span>
+                 </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Content */}
         {vocabList.length === 0 ? (
@@ -314,14 +317,48 @@ const PuzzlePage: React.FC<{
 
 const PuzzlePreview: React.FC<Props> = ({ state }) => {
   const vocabList = Array.isArray(state.vocabList) ? state.vocabList : [];
+
+  const chunkWords = (list: WordPair[], size: number) => {
+    const chunks: WordPair[][] = [];
+    for (let i = 0; i < list.length; i += size) {
+      chunks.push(list.slice(i, i + size));
+    }
+    return chunks.length > 0 ? chunks : [[]];
+  };
   
   if (state.puzzleType === 'all') {
     const types: PuzzleType[] = ['wordsearch', 'crossword', 'matching', 'anagram', 'fillin', 'flashcards'];
+    const pages: Array<{ type: PuzzleType; vocab: WordPair[]; key: string }> = [];
+
+    types.forEach((t) => {
+      if (t === 'flashcards') {
+        const chunks = chunkWords(vocabList, 10);
+        chunks.forEach((chunk, idx) => {
+          pages.push({ type: t, vocab: chunk, key: `${t}-${idx}` });
+        });
+      } else {
+        pages.push({ type: t, vocab: vocabList, key: t });
+      }
+    });
+
     return (
       <div id="print-area">
-        {types.map((t, index) => (
-          <div key={t} className={index < types.length - 1 ? "print-page-break mb-12" : ""}>
-             <PuzzlePage type={t} vocabList={vocabList} state={state} />
+        {pages.map((page, index) => (
+          <div key={page.key} className={index < pages.length - 1 ? "print-page-break mb-12" : ""}>
+             <PuzzlePage type={page.type} vocabList={page.vocab} state={state} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (state.puzzleType === 'flashcards') {
+    const chunks = chunkWords(vocabList, 10);
+    return (
+      <div id="print-area">
+        {chunks.map((chunk, index) => (
+          <div key={`flashcards-${index}`} className={index < chunks.length - 1 ? "print-page-break mb-12" : ""}>
+            <PuzzlePage type="flashcards" vocabList={chunk} state={state} />
           </div>
         ))}
       </div>

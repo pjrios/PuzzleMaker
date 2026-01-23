@@ -74,11 +74,14 @@ const App: React.FC = () => {
       try {
         const images: string[] = [];
         for (const page of pages) {
+          const rect = (page as HTMLElement).getBoundingClientRect();
           const canvas = await html2canvas(page as HTMLElement, {
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
-            logging: false
+            logging: false,
+            width: Math.round(rect.width),
+            height: Math.round(rect.height)
           });
           images.push(canvas.toDataURL('image/png'));
         }

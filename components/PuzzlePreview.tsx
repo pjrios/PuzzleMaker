@@ -24,7 +24,7 @@ const PuzzlePage: React.FC<{
 
     return (
       <div className="flex flex-col items-center w-full">
-        <div className="grid gap-0 border-2 border-black mb-8 w-full max-w-[18cm]" 
+        <div className="grid gap-0 border-2 border-black mb-8 w-full max-w-[7in]"
              style={{ gridTemplateColumns: `repeat(${settings.gridSize}, minmax(0, 1fr))` }}>
           {grid.map((row, y) => (
             row.map((char, x) => {
@@ -248,8 +248,8 @@ const PuzzlePage: React.FC<{
   };
 
   return (
-    <div className="bg-white shadow-2xl mx-auto my-8 print:shadow-none print:m-0 print:w-full">
-      <div className="w-[21cm] min-h-[29.7cm] p-[2cm] mx-auto bg-white flex flex-col items-center">
+    <div className="print-page bg-white shadow-2xl mx-auto my-8 print:shadow-none print:m-0 print:w-full">
+      <div className="w-[8.5in] min-h-[11in] p-[0.75in] mx-auto bg-white flex flex-col items-center">
         
         {/* Header with optional Logo */}
         <div className="w-full border-b-2 border-black pb-4 mb-6">

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import VocabularyInput from './components/VocabularyInput';
 import PuzzlePreview from './components/PuzzlePreview';
 import { AppState, PuzzleType } from './types';
 import { saveState, loadState } from './utils/db';
 import { Printer, RefreshCcw, Save } from 'lucide-react';
+import html2canvas from 'html2canvas';
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>({
@@ -26,6 +27,8 @@ const App: React.FC = () => {
   });
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [printImages, setPrintImages] = useState<string[] | null>(null);
+  const printCaptureRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     loadState().then((saved) => {
@@ -56,17 +59,59 @@ const App: React.FC = () => {
   };
 
   const handlePrint = () => {
-    window.print();
+    const captureAndPrint = async () => {
+      if (!printCaptureRef.current) {
+        window.print();
+        return;
+      }
+
+      const pages = Array.from(printCaptureRef.current.querySelectorAll('.print-page'));
+      if (pages.length === 0) {
+        window.print();
+        return;
+      }
+
+      try {
+        const images: string[] = [];
+        for (const page of pages) {
+          const canvas = await html2canvas(page as HTMLElement, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            logging: false
+          });
+          images.push(canvas.toDataURL('image/png'));
+        }
+
+        setPrintImages(images);
+        setTimeout(() => window.print(), 50);
+      } catch (err) {
+        console.error('Failed to render print images:', err);
+        setPrintImages(null);
+        window.print();
+      }
+    };
+
+    captureAndPrint();
   };
 
   const handleRegenerate = () => {
     updateState({ seed: Date.now() });
   };
 
+  useEffect(() => {
+    const handleAfterPrint = () => {
+      setPrintImages(null);
+    };
+
+    window.addEventListener('afterprint', handleAfterPrint);
+    return () => window.removeEventListener('afterprint', handleAfterPrint);
+  }, []);
+
   if (!isLoaded) return <div className="h-screen flex items-center justify-center">Loading...</div>;
 
   return (
-    <div className="h-full flex flex-col md:flex-row overflow-hidden bg-gray-100">
+    <div className={`app-root h-full flex flex-col md:flex-row overflow-hidden bg-gray-100 ${printImages ? 'print-images-ready' : ''}`}>
       
       {/* Sidebar Controls - No Print */}
       <aside className="w-full md:w-96 bg-white border-r border-gray-200 flex flex-col h-full overflow-y-auto no-print z-10 shadow-lg">
@@ -235,12 +280,27 @@ const App: React.FC = () => {
       </aside>
 
       {/* Main Preview Area */}
-      <main className="flex-1 overflow-auto bg-gray-200 relative">
+      <main className="flex-1 overflow-auto bg-gray-200 relative print-hide">
         <div className="min-h-full p-8 flex justify-center items-start">
            <PuzzlePreview state={appState} />
         </div>
       </main>
 
+      {/* Hidden print capture area */}
+      <div className="print-capture" aria-hidden="true">
+        <div ref={printCaptureRef}>
+          <PuzzlePreview state={appState} />
+        </div>
+      </div>
+
+      {/* Print-only rendered images */}
+      {printImages && (
+        <div className="print-only print-images">
+          {printImages.map((src, idx) => (
+            <img key={idx} src={src} alt={`Print page ${idx + 1}`} className="print-page-image" />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

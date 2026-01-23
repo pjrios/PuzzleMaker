@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Print Specific Overrides */
+@media print {
+  @page {
+    margin: 0.5cm;
+    size: letter;
+  }
+  html,
+  body,
+  #root {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body {
+    background: white;
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-break-inside-avoid {
+    break-inside: avoid;
+  }
+  .print-page-break {
+    break-after: page;
+    page-break-after: always;
+  }
+  .print-page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+  }
+  #print-area,
+  main {
+    overflow: visible !important;
+  }
+  .app-root.print-images-ready .print-hide {
+    display: none !important;
+  }
+  .print-images {
+    display: block !important;
+  }
+  .print-page-image {
+    width: 8.5in;
+    height: 11in;
+    display: block;
+    page-break-after: always;
+    break-after: page;
+    object-fit: contain;
+  }
+  .print-capture {
+    display: none !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+.print-images {
+  display: none;
+}
+
+.print-capture {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 8.5in;
+  height: 11in;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.print-capture .print-page {
+  margin: 0 !important;
+  box-shadow: none !important;
+}

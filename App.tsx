@@ -3,7 +3,7 @@ import VocabularyInput from './components/VocabularyInput';
 import PuzzlePreview from './components/PuzzlePreview';
 import { AppState, PuzzleType } from './types';
 import { saveState, loadState } from './utils/db';
-import { Printer, RefreshCcw } from 'lucide-react';
+import { Printer, RefreshCcw, Save } from 'lucide-react';
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>({

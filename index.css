@@ -64,6 +64,10 @@ body {
     break-after: page;
     object-fit: contain;
   }
+  .print-page-image:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
   .print-capture {
     display: none !important;
   }
@@ -95,31 +99,37 @@ body {
 }
 
 .print-capture .print-page-wordsearch .page-inner {
-  padding: 0.5in !important;
+  padding: 0.44in !important;
 }
 
 .print-capture .print-page-wordsearch .page-header {
-  padding-bottom: 0.15in;
-  margin-bottom: 0.2in;
+  padding-bottom: 0.11in;
+  margin-bottom: 0.165in;
 }
 
 .print-capture .print-page-wordsearch .page-header-top {
-  margin-bottom: 0.15in;
-  min-height: 3.5rem;
+  margin-bottom: 0.11in;
+  min-height: 3.3rem;
 }
 
 .print-capture .print-page-wordsearch .wordsearch-grid {
-  max-width: 6in;
-  margin-bottom: 0.35in;
+  max-width: 6.05in;
+  margin-bottom: 0.275in;
 }
 
 .print-capture .print-page-wordsearch .wordsearch-cell {
-  font-size: 0.7rem;
+  font-size: 0.66rem;
+}
+
+.print-capture .print-page-wordsearch .wordbank h3 {
+  font-size: 0.825rem;
+  margin-bottom: 0.165in;
+  padding-bottom: 0.055in;
 }
 
 .print-capture .print-page-wordsearch .wordbank-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.15in;
-  font-size: 0.7rem;
-  line-height: 1.1;
+  gap: 0.132in;
+  font-size: 0.66rem;
+  line-height: 1.0;
 }

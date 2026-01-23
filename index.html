@@ -5,41 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LexiPuzzle - Vocabulary Puzzle Maker</title>
     <meta name="description" content="Generate printable vocabulary puzzles offline." />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-      
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-
-      /* Print Specific Overrides */
-      @media print {
-        @page {
-          margin: 0.5cm;
-          size: auto;
-        }
-        body {
-          background: white;
-        }
-        .no-print {
-          display: none !important;
-        }
-        .print-only {
-          display: block !important;
-        }
-        .print-break-inside-avoid {
-          break-inside: avoid;
-        }
-        .print-page-break {
-          page-break-after: always;
-        }
-      }
-
-      .print-only {
-        display: none;
-      }
-    </style>
+    <!-- Fonts are imported in CSS or can be kept here if they have a fallback, 
+         but for strict offline, we rely on system fonts or downloaded fonts. 
+         Keeping Google Fonts for now as 'nice to have' when online. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="importmap">
 {
   "imports": {
@@ -54,7 +25,7 @@
 }
 </script>
 </head>
-  <body class="bg-gray-50 text-gray-900 h-screen overflow-hidden flex flex-col">
+  <body class="h-screen overflow-hidden flex flex-col">
     <div id="root" class="h-full flex flex-col"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

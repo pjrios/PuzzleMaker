@@ -194,7 +194,6 @@ const PuzzlePage: React.FC<{
            <div key={w.id} className="border-2 border-dashed border-gray-400 p-4 h-full flex flex-col justify-between print-break-inside-avoid">
               <div className="text-center border-b pb-2 mb-2 font-bold text-xl">{w.word}</div>
               <div className="text-center text-sm flex-1 flex items-center justify-center">{w.definition}</div>
-              <div className="text-[10px] text-gray-400 text-center uppercase tracking-widest">Fold Here</div>
            </div>
         ))}
         </div>

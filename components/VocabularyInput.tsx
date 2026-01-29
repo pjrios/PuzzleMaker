@@ -71,8 +71,7 @@ const VocabularyInput: React.FC<Props> = ({ words, onUpdate, locale }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">{t(locale, 'sidebar.inputTitle')}</h2>
+    <div className="flex flex-col">
       <div className="mb-2 text-sm text-gray-500">
         {t(locale, 'vocab.acceptedFormats')} <code>Word: Definition</code>, <code>Word - Definition</code>
       </div>

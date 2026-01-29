@@ -31,7 +31,7 @@ const App: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [printImages, setPrintImages] = useState<string[] | null>(null);
   const printCaptureRef = useRef<HTMLDivElement | null>(null);
-  const [openSection, setOpenSection] = useState<'input' | 'header' | 'settings'>('input');
+  const [openSection, setOpenSection] = useState<'input' | 'header' | 'settings' | null>('input');
   const [sidebarWidth, setSidebarWidth] = useState(384);
   const [isDesktop, setIsDesktop] = useState(false);
   const isResizingRef = useRef(false);
@@ -204,7 +204,7 @@ const App: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <button
               className="w-full text-left p-4 flex items-center justify-between"
-              onClick={() => setOpenSection('input')}
+              onClick={() => setOpenSection(prev => (prev === 'input' ? null : 'input'))}
               aria-expanded={openSection === 'input'}
             >
               <h2 className="text-xl font-bold text-gray-800">{translate('sidebar.inputTitle')}</h2>
@@ -232,7 +232,7 @@ const App: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <button
               className="w-full text-left p-4 flex items-center justify-between"
-              onClick={() => setOpenSection('header')}
+              onClick={() => setOpenSection(prev => (prev === 'header' ? null : 'header'))}
               aria-expanded={openSection === 'header'}
             >
               <h2 className="text-xl font-bold text-gray-800">{translate('sidebar.headerInfo')}</h2>
@@ -317,7 +317,7 @@ const App: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <button
               className="w-full text-left p-4 flex items-center justify-between"
-              onClick={() => setOpenSection('settings')}
+              onClick={() => setOpenSection(prev => (prev === 'settings' ? null : 'settings'))}
               aria-expanded={openSection === 'settings'}
             >
               <h2 className="text-xl font-bold text-gray-800">{translate('sidebar.settings')}</h2>

@@ -9,6 +9,7 @@ export type PuzzleType = 'wordsearch' | 'crossword' | 'anagram' | 'matching' | '
 export interface AppState {
   vocabList: WordPair[];
   puzzleType: PuzzleType;
+  locale: 'en' | 'es';
   title: string;
   institution: string;
   logoUrl?: string; // New field for logo

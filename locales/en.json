@@ -1,0 +1,67 @@
+{
+  "app": {
+    "loading": "Loading...",
+    "subtitle": "Static Puzzle Generator",
+    "language": "Language",
+    "next": "Next",
+    "printPageAlt": "Print page {number}"
+  },
+  "sidebar": {
+    "inputTitle": "1. Input Vocabulary",
+    "headerInfo": "2. Header Info",
+    "institution": "Institution",
+    "institutionPlaceholder": "School Name",
+    "logoUrl": "Logo URL (Optional)",
+    "logoUrlPlaceholder": "https://example.com/logo.png or ./logo.jpg",
+    "course": "Class / Subject",
+    "coursePlaceholder": "Class Name",
+    "trimester": "Trimester",
+    "trimesterPlaceholder": "Term",
+    "groups": "Groups",
+    "groupsPlaceholder": "e.g. 5A & 5B",
+    "title": "Activity Title",
+    "titlePlaceholder": "Puzzle Title",
+    "settings": "3. Puzzle Settings",
+    "puzzleType": "Puzzle Type",
+    "generateAll": "Generate All Puzzles (Pack)",
+    "gridSize": "Grid Size: {size}",
+    "showWordBank": "Show Word Bank",
+    "showAnswerKey": "Show Answer Key",
+    "regenerate": "Regenerate",
+    "print": "Print"
+  },
+  "vocab": {
+    "acceptedFormats": "Accepted formats:",
+    "placeholder": "Photosynthesis: Process used by plants\nOsmosis - Movement of water\n...",
+    "errorNoPairs": "No valid word-definition pairs found. Try format 'Apple: A red fruit'",
+    "preview": "Preview ({count})",
+    "word": "Word",
+    "definition": "Definition"
+  },
+  "puzzle": {
+    "wordBank": "Word Bank",
+    "across": "Across",
+    "down": "Down",
+    "words": "Words",
+    "definitions": "Definitions",
+    "addWords": "Add words to generate puzzle...",
+    "classLabel": "Class",
+    "termLabel": "Term",
+    "groupLabel": "Group",
+    "nameLabel": "Name",
+    "dateLabel": "Date",
+    "activity": "Activity"
+  },
+  "puzzleType": {
+    "wordsearch": "Word Search",
+    "crossword": "Crossword Puzzle",
+    "matching": "Matching Quiz",
+    "anagram": "Word Scramble",
+    "fillin": "Vocabulary Quiz",
+    "flashcards": "Flashcards"
+  },
+  "language": {
+    "en": "English",
+    "es": "Spanish"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "app": {
+    "loading": "Cargando...",
+    "subtitle": "Generador de Rompecabezas",
+    "language": "Idioma",
+    "next": "Siguiente",
+    "printPageAlt": "Pagina de impresion {number}"
+  },
+  "sidebar": {
+    "inputTitle": "1. Ingresar Vocabulario",
+    "headerInfo": "2. Informacion del Encabezado",
+    "institution": "Institucion",
+    "institutionPlaceholder": "Nombre de la escuela",
+    "logoUrl": "URL del logo (opcional)",
+    "logoUrlPlaceholder": "https://ejemplo.com/logo.png o ./logo.jpg",
+    "course": "Clase / Materia",
+    "coursePlaceholder": "Nombre de la clase",
+    "trimester": "Trimestre",
+    "trimesterPlaceholder": "Periodo",
+    "groups": "Grupos",
+    "groupsPlaceholder": "ej. 5A y 5B",
+    "title": "Titulo de la Actividad",
+    "titlePlaceholder": "Titulo del rompecabezas",
+    "settings": "3. Ajustes del Rompecabezas",
+    "puzzleType": "Tipo de Rompecabezas",
+    "generateAll": "Generar Todos los Rompecabezas (Paquete)",
+    "gridSize": "Tamano de la cuadrícula: {size}",
+    "showWordBank": "Mostrar banco de palabras",
+    "showAnswerKey": "Mostrar clave de respuestas",
+    "regenerate": "Regenerar",
+    "print": "Imprimir"
+  },
+  "vocab": {
+    "acceptedFormats": "Formatos aceptados:",
+    "placeholder": "Fotosintesis: Proceso usado por plantas\nOsmosis - Movimiento de agua\n...",
+    "errorNoPairs": "No se encontraron pares validos. Prueba el formato 'Manzana: Una fruta roja'",
+    "preview": "Vista previa ({count})",
+    "word": "Palabra",
+    "definition": "Definicion"
+  },
+  "puzzle": {
+    "wordBank": "Banco de Palabras",
+    "across": "Horizontal",
+    "down": "Vertical",
+    "words": "Palabras",
+    "definitions": "Definiciones",
+    "addWords": "Agrega palabras para generar el rompecabezas...",
+    "classLabel": "Clase",
+    "termLabel": "Periodo",
+    "groupLabel": "Grupo",
+    "nameLabel": "Nombre",
+    "dateLabel": "Fecha",
+    "activity": "Actividad"
+  },
+  "puzzleType": {
+    "wordsearch": "Sopa de Letras",
+    "crossword": "Crucigrama",
+    "matching": "Relacionar",
+    "anagram": "Anagramas",
+    "fillin": "Vocabulario",
+    "flashcards": "Tarjetas"
+  },
+  "language": {
+    "en": "Ingles",
+    "es": "Espanol"
+  }
+}

@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { AppState, PuzzleType, WordPair } from '../types';
 import { generateWordSearch, generateCrossword, scrambleWord, shuffleArray, cleanWord } from '../utils/puzzleGen';
+import { Locale, t } from '../utils/i18n';
 
 interface Props {
   state: AppState;
+  locale: Locale;
 }
 
 // Sub-component for rendering a single page to allow efficient re-use for "Print All"
@@ -11,8 +13,10 @@ const PuzzlePage: React.FC<{
   type: PuzzleType;
   vocabList: WordPair[];
   state: AppState; // Pass full state for config
-}> = ({ type, vocabList, state }) => {
+  locale: Locale;
+}> = ({ type, vocabList, state, locale }) => {
   const { title, institution, logoUrl, course, trimester, groups, seed, showWordBank, showAnswerKey, settings } = state;
+  const translate = (key: string, vars?: Record<string, string | number>) => t(locale, key, vars);
 
   // --- Renderers (Memoized per page) ---
 
@@ -48,7 +52,7 @@ const PuzzlePage: React.FC<{
 
         {showWordBank && (
           <div className="wordbank w-full">
-            <h3 className="font-bold border-b-2 border-black mb-4 pb-1">Word Bank</h3>
+            <h3 className="font-bold border-b-2 border-black mb-4 pb-1">{translate('puzzle.wordBank')}</h3>
             <div className="wordbank-grid grid grid-cols-3 gap-4 text-sm">
               {vocabList.map(w => (
                 <div key={w.id} className="flex items-center gap-2">
@@ -101,7 +105,7 @@ const PuzzlePage: React.FC<{
 
         <div className="grid grid-cols-2 gap-8 text-sm">
           <div>
-            <h3 className="font-bold border-b border-black mb-2">Across</h3>
+            <h3 className="font-bold border-b border-black mb-2">{translate('puzzle.across')}</h3>
             <ul className="list-none space-y-2">
               {acrossClues.map(w => (
                 <li key={`a-${w.number}`}><strong>{w.number}.</strong> {w.clue}</li>
@@ -109,7 +113,7 @@ const PuzzlePage: React.FC<{
             </ul>
           </div>
           <div>
-            <h3 className="font-bold border-b border-black mb-2">Down</h3>
+            <h3 className="font-bold border-b border-black mb-2">{translate('puzzle.down')}</h3>
             <ul className="list-none space-y-2">
               {downClues.map(w => (
                 <li key={`d-${w.number}`}><strong>{w.number}.</strong> {w.clue}</li>
@@ -136,7 +140,7 @@ const PuzzlePage: React.FC<{
     return (
       <div className="w-full grid grid-cols-2 gap-8 text-sm">
         <div>
-          <h3 className="font-bold mb-4 text-center">Words</h3>
+          <h3 className="font-bold mb-4 text-center">{translate('puzzle.words')}</h3>
           <div className="space-y-6">
             {vocabList.map((w, i) => {
                const defIndex = safeShuffledDefs.findIndex(d => d.id === w.id);
@@ -152,7 +156,7 @@ const PuzzlePage: React.FC<{
           </div>
         </div>
         <div>
-          <h3 className="font-bold mb-4 text-center">Definitions</h3>
+          <h3 className="font-bold mb-4 text-center">{translate('puzzle.definitions')}</h3>
            <div className="space-y-6">
             {safeShuffledDefs.map((w, i) => (
                <div key={w.id} className="flex items-baseline gap-2">
@@ -214,7 +218,7 @@ const PuzzlePage: React.FC<{
       <div className="w-full space-y-8">
         {showWordBank && (
           <div className="border p-4 mb-6 rounded bg-gray-50">
-            <h3 className="font-bold text-center mb-2">Word Bank</h3>
+            <h3 className="font-bold text-center mb-2">{translate('puzzle.wordBank')}</h3>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
                {vocabList.map(w => <span key={w.id} className="px-2 py-1 border rounded">{w.word}</span>)}
             </div>
@@ -240,12 +244,12 @@ const PuzzlePage: React.FC<{
 
   // Determine standard title based on type
   const typeTitles: Record<string, string> = {
-    wordsearch: 'Word Search',
-    crossword: 'Crossword Puzzle',
-    matching: 'Matching Quiz',
-    anagram: 'Word Scramble',
-    fillin: 'Vocabulary Quiz',
-    flashcards: 'Flashcards'
+    wordsearch: translate('puzzleType.wordsearch'),
+    crossword: translate('puzzleType.crossword'),
+    matching: translate('puzzleType.matching'),
+    anagram: translate('puzzleType.anagram'),
+    fillin: translate('puzzleType.fillin'),
+    flashcards: translate('puzzleType.flashcards')
   };
 
   return (
@@ -271,24 +275,24 @@ const PuzzlePage: React.FC<{
             </div>
             
             <div className="flex justify-between text-sm border-b border-gray-300 pb-2 mb-4">
-              <div><span className="font-bold">Class:</span> {course}</div>
-              <div><span className="font-bold">Term:</span> {trimester}</div>
-              <div><span className="font-bold">Group:</span> {groups}</div>
+              <div><span className="font-bold">{translate('puzzle.classLabel')}:</span> {course}</div>
+              <div><span className="font-bold">{translate('puzzle.termLabel')}:</span> {trimester}</div>
+              <div><span className="font-bold">{translate('puzzle.groupLabel')}:</span> {groups}</div>
             </div>
 
             <div className="flex justify-between items-end">
               <div className="flex-1">
                 {/* Ensure title size matches institution size exactly (text-xl uppercase tracking-wider) */}
-                <h1 className="text-xl font-bold uppercase tracking-wider">{title || typeTitles[type] || 'Activity'}</h1>
+                <h1 className="text-xl font-bold uppercase tracking-wider">{title || typeTitles[type] || translate('puzzle.activity')}</h1>
                 <p className="text-sm mt-1 uppercase tracking-widest text-gray-600">{typeTitles[type]}</p>
               </div>
               <div className="text-right text-sm w-1/3">
                  <div className="mb-2 border-b border-black border-dotted pb-1 flex justify-between">
-                   <span>Name:</span> 
+                   <span>{translate('puzzle.nameLabel')}:</span> 
                    <span className="w-32"></span>
                  </div>
                  <div className="border-b border-black border-dotted pb-1 flex justify-between">
-                   <span>Date:</span>
+                   <span>{translate('puzzle.dateLabel')}:</span>
                    <span className="w-32"></span>
                  </div>
               </div>
@@ -298,7 +302,7 @@ const PuzzlePage: React.FC<{
 
         {/* Content */}
         {vocabList.length === 0 ? (
-          <div className="text-gray-400 italic mt-10">Add words to generate puzzle...</div>
+          <div className="text-gray-400 italic mt-10">{translate('puzzle.addWords')}</div>
         ) : (
           <>
             {type === 'wordsearch' && renderWordSearch()}
@@ -314,7 +318,7 @@ const PuzzlePage: React.FC<{
   );
 };
 
-const PuzzlePreview: React.FC<Props> = ({ state }) => {
+const PuzzlePreview: React.FC<Props> = ({ state, locale }) => {
   const vocabList = Array.isArray(state.vocabList) ? state.vocabList : [];
 
   const chunkWords = (list: WordPair[], size: number) => {
@@ -344,7 +348,7 @@ const PuzzlePreview: React.FC<Props> = ({ state }) => {
       <div id="print-area">
         {pages.map((page, index) => (
           <div key={page.key} className={index < pages.length - 1 ? "print-page-break mb-12" : ""}>
-             <PuzzlePage type={page.type} vocabList={page.vocab} state={state} />
+             <PuzzlePage type={page.type} vocabList={page.vocab} state={state} locale={locale} />
           </div>
         ))}
       </div>
@@ -357,7 +361,7 @@ const PuzzlePreview: React.FC<Props> = ({ state }) => {
       <div id="print-area">
         {chunks.map((chunk, index) => (
           <div key={`flashcards-${index}`} className={index < chunks.length - 1 ? "print-page-break mb-12" : ""}>
-            <PuzzlePage type="flashcards" vocabList={chunk} state={state} />
+            <PuzzlePage type="flashcards" vocabList={chunk} state={state} locale={locale} />
           </div>
         ))}
       </div>
@@ -366,7 +370,7 @@ const PuzzlePreview: React.FC<Props> = ({ state }) => {
 
   return (
     <div id="print-area">
-      <PuzzlePage type={state.puzzleType} vocabList={vocabList} state={state} />
+      <PuzzlePage type={state.puzzleType} vocabList={vocabList} state={state} locale={locale} />
     </div>
   );
 };

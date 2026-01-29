@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { WordPair } from '../types';
+import { Locale, t } from '../utils/i18n';
 
 interface Props {
   words: WordPair[];
   onUpdate: (words: WordPair[]) => void;
+  locale: Locale;
 }
 
-const VocabularyInput: React.FC<Props> = ({ words, onUpdate }) => {
+const VocabularyInput: React.FC<Props> = ({ words, onUpdate, locale }) => {
   const [rawText, setRawText] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -53,7 +55,7 @@ const VocabularyInput: React.FC<Props> = ({ words, onUpdate }) => {
     });
 
     if (newWords.length === 0 && text.trim().length > 0) {
-      parseError = "No valid word-definition pairs found. Try format 'Apple: A red fruit'";
+      parseError = t(locale, 'vocab.errorNoPairs');
     }
 
     setError(parseError);
@@ -69,27 +71,27 @@ const VocabularyInput: React.FC<Props> = ({ words, onUpdate }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-full flex flex-col">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">1. Input Vocabulary</h2>
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col">
+      <h2 className="text-xl font-bold mb-4 text-gray-800">{t(locale, 'sidebar.inputTitle')}</h2>
       <div className="mb-2 text-sm text-gray-500">
-        Accepted formats: <code>Word: Definition</code>, <code>Word - Definition</code>
+        {t(locale, 'vocab.acceptedFormats')} <code>Word: Definition</code>, <code>Word - Definition</code>
       </div>
       <textarea
-        className="w-full flex-1 p-4 border rounded-md font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none bg-gray-50"
-        placeholder={`Photosynthesis: Process used by plants\nOsmosis - Movement of water\n...`}
+        className="w-full min-h-[220px] h-56 p-4 border rounded-md font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-y bg-gray-50"
+        placeholder={t(locale, 'vocab.placeholder')}
         value={rawText}
         onChange={handleTextChange}
       />
       {error && <div className="mt-2 text-red-600 text-sm">{error}</div>}
       
       <div className="mt-4 border-t pt-4">
-        <h3 className="font-semibold text-gray-700 mb-2">Preview ({words.length})</h3>
+        <h3 className="font-semibold text-gray-700 mb-2">{t(locale, 'vocab.preview', { count: words.length })}</h3>
         <div className="max-h-48 overflow-y-auto border rounded bg-gray-50">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="bg-gray-200">
-                <th className="p-2 w-1/3">Word</th>
-                <th className="p-2">Definition</th>
+                <th className="p-2 w-1/3">{t(locale, 'vocab.word')}</th>
+                <th className="p-2">{t(locale, 'vocab.definition')}</th>
               </tr>
             </thead>
             <tbody>

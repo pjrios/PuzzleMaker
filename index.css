@@ -336,6 +336,37 @@ body {
   line-height: 1.0;
 }
 
+.wordbank-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.25rem;
+}
+
+.wordbank-box {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #000;
+  flex: 0 0 auto;
+  position: relative;
+  top: 1px;
+}
+
+.wordbank-label {
+  display: inline-block;
+  line-height: 1;
+  position: relative;
+  top: -1px;
+}
+
+.print-page-flashcards .flashcards-grid {
+  align-content: start;
+}
+
+.print-page-flashcards .flashcard-card {
+  min-height: 2in;
+}
+
 /* Screen-only layout debug helpers */
 .app-root.debug-layout .print-page {
   outline: 3px solid #ef4444;

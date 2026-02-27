@@ -55,9 +55,11 @@ const PuzzlePage: React.FC<{
             <h3 className="font-bold border-b-2 border-black mb-4 pb-1">{translate('puzzle.wordBank')}</h3>
             <div className="wordbank-grid grid grid-cols-3 gap-4 text-sm">
               {vocabList.map(w => (
-                <div key={w.id} className="flex items-center gap-2 min-h-4">
-                  <div className="w-4 h-4 border border-black flex-shrink-0"></div>
-                  <span className="block leading-none">{w.word}</span>
+                <div key={w.id} className="wordbank-item">
+                  <div className="wordbank-box"></div>
+                  <span className="wordbank-label">
+                    {w.word.replace(/\s+/g, '\u00A0')}
+                  </span>
                 </div>
               ))}
             </div>
@@ -194,13 +196,18 @@ const PuzzlePage: React.FC<{
   };
 
   const renderFlashcards = () => {
+    const rows = Math.max(1, Math.ceil(vocabList.length / 2));
+
     return (
-      <div className="w-full flex-1 flex">
-        <div className="w-full grid grid-cols-2 grid-rows-5 gap-4 flex-1">
+      <div className="w-full">
+        <div
+          className="flashcards-grid w-full grid grid-cols-2 gap-4"
+          style={{ gridTemplateRows: `repeat(${rows}, minmax(0, auto))` }}
+        >
         {vocabList.map(w => (
-           <div key={w.id} className="border-2 border-dashed border-gray-400 p-4 h-full flex flex-col justify-between print-break-inside-avoid">
-              <div className="text-center border-b pb-2 mb-2 font-bold text-xl">{w.word}</div>
-              <div className="text-center text-sm flex-1 flex items-center justify-center">{w.definition}</div>
+           <div key={w.id} className="flashcard-card border-2 border-dashed border-gray-400 p-4 flex flex-col gap-3 print-break-inside-avoid">
+              <div className="text-center border-b pb-2 mb-1 font-bold text-xl">{w.word}</div>
+              <div className="text-center text-sm leading-snug whitespace-normal break-words">{w.definition}</div>
            </div>
         ))}
         </div>

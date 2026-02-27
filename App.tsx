@@ -3,10 +3,35 @@ import VocabularyInput from './components/VocabularyInput';
 import PuzzlePreview from './components/PuzzlePreview';
 import { AppState, PuzzleType } from './types';
 import { saveState, loadState } from './utils/db';
-import { Printer, RefreshCcw, FileDown } from 'lucide-react';
+import { Printer, RefreshCcw, FileDown, Bug } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { t, Locale } from './utils/i18n';
+
+const getAutoTrimester = (date: Date, locale: Locale): string => {
+  const year = date.getFullYear();
+  const firstStart = new Date(year, 2, 2);   // Mar 2
+  const secondStart = new Date(year, 5, 8);  // Jun 8
+  const thirdStart = new Date(year, 8, 14);  // Sep 14
+
+  const labels =
+    locale === 'es'
+      ? {
+          first: 'Primer Trimestre',
+          second: 'Segundo Trimestre',
+          third: 'Tercer Trimestre',
+        }
+      : {
+          first: '1st Trimester',
+          second: '2nd Trimester',
+          third: '3rd Trimester',
+        };
+
+  if (date >= thirdStart) return labels.third;
+  if (date >= secondStart) return labels.second;
+  if (date >= firstStart) return labels.first;
+  return labels.first;
+};
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>({
@@ -17,7 +42,7 @@ const App: React.FC = () => {
     institution: 'Academia Internacional David',
     logoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDd-14En3zTggFUEUDF2AofqgVl1UB33ktBQ&s',
     course: 'Robotics and Technology',
-    trimester: '3rd Trimester',
+    trimester: getAutoTrimester(new Date(), 'en'),
     groups: '5A & 5B & 5C',
     seed: Date.now(),
     showWordBank: true,
@@ -53,7 +78,7 @@ const App: React.FC = () => {
           institution: saved.institution || 'Academia Internacional David',
           logoUrl: saved.logoUrl !== undefined ? saved.logoUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDd-14En3zTggFUEUDF2AofqgVl1UB33ktBQ&s',
           course: saved.course || 'Robotics and Technology',
-          trimester: saved.trimester || '3rd Trimester',
+          trimester: getAutoTrimester(new Date(), (saved.locale || 'en') as Locale),
           groups: saved.groups || '5A & 5B & 5C'
         });
       }
@@ -69,6 +94,11 @@ const App: React.FC = () => {
 
   useEffect(() => {
     document.documentElement.lang = appState.locale || 'en';
+  }, [appState.locale]);
+
+  useEffect(() => {
+    const autoTrimester = getAutoTrimester(new Date(), (appState.locale || 'en') as Locale);
+    setAppState((prev) => (prev.trimester === autoTrimester ? prev : { ...prev, trimester: autoTrimester }));
   }, [appState.locale]);
 
   useEffect(() => {
@@ -362,8 +392,8 @@ const App: React.FC = () => {
                     <input
                       type="text"
                       value={appState.trimester}
-                      onChange={(e) => updateState({ trimester: e.target.value })}
-                      className="w-full p-2 border rounded text-sm"
+                      readOnly
+                      className="w-full p-2 border rounded text-sm bg-gray-100 text-gray-700 cursor-not-allowed"
                       placeholder={translate('sidebar.trimesterPlaceholder')}
                     />
                   </div>
@@ -481,17 +511,21 @@ const App: React.FC = () => {
         <footer className="p-4 border-t bg-gray-50 flex gap-2">
            <button
              onClick={() => setDebugLayout(prev => !prev)}
+             title="Debug Borders"
+             aria-label="Debug Borders"
              className={`py-2 px-3 border rounded text-sm font-medium ${
                debugLayout ? 'bg-amber-100 border-amber-400 text-amber-800' : 'bg-white border-gray-300 hover:bg-gray-100 text-gray-700'
              }`}
            >
-             Debug Borders
+             <Bug size={16} />
            </button>
            <button 
              onClick={handleRegenerate}
-             className="flex-1 flex items-center justify-center gap-2 py-2 px-4 bg-white border border-gray-300 rounded hover:bg-gray-100 text-sm font-medium"
+             title={translate('sidebar.regenerate')}
+             aria-label={translate('sidebar.regenerate')}
+             className="flex items-center justify-center py-2 px-3 bg-white border border-gray-300 rounded hover:bg-gray-100 text-sm font-medium"
            >
-             <RefreshCcw size={16} /> {translate('sidebar.regenerate')}
+             <RefreshCcw size={16} />
            </button>
            <button 
              onClick={handlePrint}

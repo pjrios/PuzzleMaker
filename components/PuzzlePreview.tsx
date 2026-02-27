@@ -77,14 +77,14 @@ const PuzzlePage: React.FC<{
     const downClues = placedWords.filter(w => w.direction === 'down').sort((a,b) => a.number - b.number);
 
     return (
-      <div className="crossword-layout w-full grid grid-cols-1 md:grid-cols-[1.35fr_1fr] gap-6 items-start">
-        <div className="crossword-grid-wrap w-full">
+      <div className="crossword-below w-full h-full flex flex-col gap-4">
+        <div className="crossword-grid-wrap w-full flex-1 min-h-0 flex justify-center items-center">
           <div
-            className="grid"
+            className="crossword-grid grid"
             style={{
               gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
               width: '100%',
-              maxWidth: '100%',
+              maxWidth: '6.9in',
               aspectRatio: `${width}/${height}`
             }}
           >
@@ -106,7 +106,7 @@ const PuzzlePage: React.FC<{
           </div>
         </div>
 
-        <div className="crossword-clues grid grid-cols-2 md:grid-cols-1 gap-4 text-xs sm:text-sm leading-tight">
+        <div className="crossword-clues grid grid-cols-2 gap-4 text-xs sm:text-sm leading-tight">
           <div>
             <h3 className="font-bold border-b border-black mb-2">{translate('puzzle.across')}</h3>
             <ul className="list-none space-y-1.5">

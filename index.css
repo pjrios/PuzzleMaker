@@ -11,7 +11,7 @@ body {
 /* Print Specific Overrides */
 @media print {
   @page {
-    margin: 0.5cm;
+    margin: 0;
     size: letter;
   }
   html,
@@ -39,12 +39,16 @@ body {
   .print-page-break {
     break-after: page;
     page-break-after: always;
+    margin-bottom: 0 !important;
   }
   .print-page {
-    width: 8.5in;
-    height: 11in;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
     margin: 0 auto !important;
     box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
   #print-area,
   main {
@@ -57,8 +61,8 @@ body {
     display: block !important;
   }
   .print-page-image {
-    width: 8.5in;
-    height: 11in;
+    width: 100%;
+    height: auto;
     display: block;
     page-break-after: always;
     break-after: page;

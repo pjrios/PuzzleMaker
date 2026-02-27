@@ -34,6 +34,7 @@ const App: React.FC = () => {
   const [openSection, setOpenSection] = useState<'input' | 'header' | 'settings' | null>('input');
   const [sidebarWidth, setSidebarWidth] = useState(384);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [debugLayout, setDebugLayout] = useState(false);
   const isResizingRef = useRef(false);
   const resizeStartXRef = useRef(0);
   const resizeStartWidthRef = useRef(384);
@@ -175,7 +176,7 @@ const App: React.FC = () => {
   if (!isLoaded) return <div className="h-screen flex items-center justify-center">{translate('app.loading')}</div>;
 
   return (
-    <div className={`app-root h-full flex flex-col md:flex-row overflow-hidden bg-gray-100 ${printImages ? 'print-images-ready' : ''}`}>
+    <div className={`app-root h-full flex flex-col md:flex-row overflow-hidden bg-gray-100 ${printImages ? 'print-images-ready' : ''} ${debugLayout ? 'debug-layout' : ''}`}>
       
       {/* Sidebar Controls - No Print */}
       <aside
@@ -393,6 +394,14 @@ const App: React.FC = () => {
         </div>
 
         <footer className="p-4 border-t bg-gray-50 flex gap-2">
+           <button
+             onClick={() => setDebugLayout(prev => !prev)}
+             className={`py-2 px-3 border rounded text-sm font-medium ${
+               debugLayout ? 'bg-amber-100 border-amber-400 text-amber-800' : 'bg-white border-gray-300 hover:bg-gray-100 text-gray-700'
+             }`}
+           >
+             Debug Borders
+           </button>
            <button 
              onClick={handleRegenerate}
              className="flex-1 flex items-center justify-center gap-2 py-2 px-4 bg-white border border-gray-300 rounded hover:bg-gray-100 text-sm font-medium"

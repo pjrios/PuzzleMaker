@@ -229,12 +229,8 @@ export const generateCrossword = (words: WordPair[], seed: number): CrosswordLay
     maxY = Math.max(maxY, w.direction === 'down' ? w.y + w.word.length : w.y + 1);
   });
 
-  // Add padding
-  minX = Math.max(0, minX - 1);
-  minY = Math.max(0, minY - 1);
-  
-  const width = (maxX - minX) + 2;
-  const height = (maxY - minY) + 2;
+  const width = maxX - minX;
+  const height = maxY - minY;
   
   const croppedGrid = Array(height).fill(null).map((_, y) => 
     Array(width).fill(null).map((_, x) => {

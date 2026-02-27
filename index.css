@@ -42,10 +42,12 @@ body {
     margin-bottom: 0 !important;
   }
   .print-page {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
+    width: 8.5in !important;
+    height: 11in !important;
+    min-height: 11in !important;
     margin: 0 auto !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
     box-shadow: none !important;
     break-inside: avoid;
     page-break-inside: avoid;
@@ -78,8 +80,8 @@ body {
 
   .print-page-crossword .crossword-below {
     display: grid !important;
-    grid-template-rows: 4.9in 1.95in !important;
-    gap: 0.08in !important;
+    grid-template-rows: 4in 3in !important;
+    gap: 0.03in !important;
     height: 100% !important;
     overflow: hidden !important;
   }
@@ -87,26 +89,38 @@ body {
   .print-page-crossword .page-inner {
     display: grid !important;
     grid-template-rows: auto minmax(0, 1fr) !important;
+    padding-top: 0.44in !important;
   }
 
   .print-page-crossword .page-header {
-    margin-bottom: 0.14in !important;
-    padding-bottom: 0.14in !important;
+    height: 2.25in !important;
+    margin-bottom: 0.08in !important;
+    margin-top: 0 !important;
+    padding-bottom: 0.08in !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .print-page-crossword .page-header-top {
+    min-height: 0.78in !important;
+    margin-bottom: 0.08in !important;
   }
 
   .print-page-crossword .crossword-grid-wrap {
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-end !important;
     justify-content: center !important;
     flex: 1 1 auto !important;
-    height: 4.9in !important;
+    height: 4in !important;
     min-height: 0 !important;
     overflow: hidden !important;
   }
 
   .print-page-crossword .crossword-grid {
     width: auto !important;
-    height: 4.9in !important;
+    height: 4in !important;
     max-width: 100% !important;
     max-height: 100% !important;
     margin: 0 auto !important;
@@ -118,7 +132,7 @@ body {
     gap: 0.12in !important;
     font-size: 0.62rem !important;
     line-height: 1.15 !important;
-    height: 1.95in !important;
+    height: 3in !important;
     overflow: hidden !important;
     overflow-wrap: anywhere;
   }
@@ -131,6 +145,122 @@ body {
 
 .print-only {
   display: none;
+}
+
+.print-page {
+  width: 8.5in;
+  height: 11in;
+  min-height: 11in;
+  box-sizing: border-box;
+  overflow: visible;
+  position: relative;
+  isolation: isolate;
+}
+
+.print-page .page-inner {
+  height: 100%;
+  overflow: visible;
+}
+
+/* Screen preview fit rules so content stays inside 8.5x11 cards */
+.print-page-wordsearch .page-inner {
+  padding: 0.44in !important;
+}
+
+.print-page-wordsearch .page-header {
+  padding-bottom: 0.11in !important;
+  margin-bottom: 0.165in !important;
+}
+
+.print-page-wordsearch .page-header-top {
+  margin-bottom: 0.11in !important;
+  min-height: 3.3rem !important;
+}
+
+.print-page-wordsearch .wordsearch-grid {
+  max-width: 6.05in !important;
+  margin-bottom: 0.275in !important;
+}
+
+.print-page-wordsearch .wordsearch-cell {
+  font-size: 0.66rem !important;
+}
+
+.print-page-wordsearch .wordbank h3 {
+  font-size: 0.825rem !important;
+  margin-bottom: 0.165in !important;
+  padding-bottom: 0.055in !important;
+}
+
+.print-page-wordsearch .wordbank-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.132in !important;
+  font-size: 0.66rem !important;
+  line-height: 1.0 !important;
+}
+
+.print-page-crossword .crossword-below {
+  display: grid !important;
+  grid-template-rows: 4in 3in !important;
+  gap: 0.03in !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.print-page-crossword .page-inner {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  padding-top: 0.44in !important;
+}
+
+.print-page-crossword .page-header {
+  height: 2.25in !important;
+  margin-bottom: 0.08in !important;
+  margin-top: 0 !important;
+  padding-bottom: 0.08in !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.print-page-crossword .page-header-top {
+  min-height: 0.78in !important;
+  margin-bottom: 0.08in !important;
+}
+
+.print-page-crossword .crossword-grid-wrap {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  flex: 1 1 auto !important;
+  height: 4in !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.print-page-crossword .crossword-grid {
+  width: auto !important;
+  height: 4in !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 auto !important;
+}
+
+.print-page-crossword .crossword-clues {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0.12in !important;
+  font-size: 0.62rem !important;
+  line-height: 1.15 !important;
+  height: 3in !important;
+  overflow: hidden !important;
+  overflow-wrap: anywhere !important;
+}
+
+.print-page-crossword .crossword-clues ul {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .print-images {
@@ -188,4 +318,25 @@ body {
   gap: 0.132in;
   font-size: 0.66rem;
   line-height: 1.0;
+}
+
+/* Screen-only layout debug helpers */
+.app-root.debug-layout .print-page {
+  outline: 3px solid #ef4444;
+}
+
+.app-root.debug-layout .print-page .page-inner {
+  outline: 2px dashed #22c55e;
+}
+
+.app-root.debug-layout .print-page .page-header {
+  outline: 2px solid #3b82f6;
+}
+
+.app-root.debug-layout .print-page .wordsearch-grid,
+.app-root.debug-layout .print-page .crossword-grid-wrap,
+.app-root.debug-layout .print-page .crossword-clues,
+.app-root.debug-layout .print-page .wordbank,
+.app-root.debug-layout .print-page .wordbank-grid {
+  outline: 2px dotted #a855f7;
 }

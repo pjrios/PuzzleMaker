@@ -224,12 +224,22 @@ const App: React.FC = () => {
         pdf.addImage(image, 'PNG', 0, 0, 8.5, 11, undefined, 'NONE');
       });
 
-      const safeTitle = (appState.title || 'lexipuzzle')
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]+/g, '-')
-        .replace(/^-+|-+$/g, '');
+      const rawName = [
+        appState.trimester || '',
+        appState.course || '',
+        appState.title || '',
+        appState.groups || ''
+      ]
+        .map((part) => String(part).trim())
+        .filter(Boolean)
+        .join(' - ');
 
-      pdf.save(`${safeTitle || 'lexipuzzle'}.pdf`);
+      const safeName = (rawName || 'lexipuzzle')
+        .replace(/[<>:"/\\|?*\u0000-\u001F]/g, '-') // invalid filename chars
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      pdf.save(`${safeName}.pdf`);
     } catch (err) {
       console.error('Failed to export PDF:', err);
     }

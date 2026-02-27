@@ -337,10 +337,17 @@ body {
 }
 
 .wordbank-item {
-  display: flex;
+  min-height: 1.35rem;
+}
+
+.wordbank-chip {
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  min-height: 1.25rem;
+  min-height: 1.35rem;
+  padding: 0.05rem 0.15rem;
+  border: 0;
+  border-radius: 2px;
 }
 
 .wordbank-box {

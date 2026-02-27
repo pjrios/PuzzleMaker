@@ -56,10 +56,12 @@ const PuzzlePage: React.FC<{
             <div className="wordbank-grid grid grid-cols-3 gap-4 text-sm">
               {vocabList.map(w => (
                 <div key={w.id} className="wordbank-item">
-                  <div className="wordbank-box"></div>
-                  <span className="wordbank-label">
-                    {w.word.replace(/\s+/g, '\u00A0')}
-                  </span>
+                  <div className="wordbank-chip">
+                    <div className="wordbank-box"></div>
+                    <span className="wordbank-label">
+                      {w.word.replace(/\s+/g, '\u00A0')}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

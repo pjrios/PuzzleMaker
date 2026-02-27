@@ -28,7 +28,8 @@
     "showWordBank": "Mostrar banco de palabras",
     "showAnswerKey": "Mostrar clave de respuestas",
     "regenerate": "Regenerar",
-    "print": "Imprimir"
+    "print": "Imprimir",
+    "exportPdf": "Exportar PDF"
   },
   "vocab": {
     "acceptedFormats": "Formatos aceptados:",

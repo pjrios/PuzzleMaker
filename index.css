@@ -356,3 +356,15 @@ body {
 .app-root.debug-layout .print-page .wordbank-grid {
   outline: 2px dotted #a855f7;
 }
+
+/* Ensure capture/export is unaffected by debug overlays */
+.app-root.capture-mode .print-page,
+.app-root.capture-mode .print-page .page-inner,
+.app-root.capture-mode .print-page .page-header,
+.app-root.capture-mode .print-page .wordsearch-grid,
+.app-root.capture-mode .print-page .crossword-grid-wrap,
+.app-root.capture-mode .print-page .crossword-clues,
+.app-root.capture-mode .print-page .wordbank,
+.app-root.capture-mode .print-page .wordbank-grid {
+  outline: none !important;
+}

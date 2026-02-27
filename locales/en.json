@@ -28,7 +28,8 @@
     "showWordBank": "Show Word Bank",
     "showAnswerKey": "Show Answer Key",
     "regenerate": "Regenerate",
-    "print": "Print"
+    "print": "Print",
+    "exportPdf": "Export PDF"
   },
   "vocab": {
     "acceptedFormats": "Accepted formats:",

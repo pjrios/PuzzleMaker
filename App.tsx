@@ -3,8 +3,9 @@ import VocabularyInput from './components/VocabularyInput';
 import PuzzlePreview from './components/PuzzlePreview';
 import { AppState, PuzzleType } from './types';
 import { saveState, loadState } from './utils/db';
-import { Printer, RefreshCcw } from 'lucide-react';
+import { Printer, RefreshCcw, FileDown } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import { t, Locale } from './utils/i18n';
 
 const App: React.FC = () => {
@@ -35,6 +36,7 @@ const App: React.FC = () => {
   const [sidebarWidth, setSidebarWidth] = useState(384);
   const [isDesktop, setIsDesktop] = useState(false);
   const [debugLayout, setDebugLayout] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
   const isResizingRef = useRef(false);
   const resizeStartXRef = useRef(0);
   const resizeStartWidthRef = useRef(384);
@@ -120,32 +122,49 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const handlePrint = () => {
-    const captureAndPrint = async () => {
-      if (!printCaptureRef.current) {
-        window.print();
-        return;
-      }
+  const capturePageImages = async (): Promise<string[] | null> => {
+    if (!printCaptureRef.current) return null;
+
+    setIsCapturing(true);
+    try {
+      // Ensure web fonts and layout are fully resolved before rasterizing.
+      if (document.fonts?.ready) await document.fonts.ready;
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+      await new Promise((resolve) => setTimeout(resolve, 40));
 
       const pages = Array.from(printCaptureRef.current.querySelectorAll('.print-page'));
-      if (pages.length === 0) {
-        window.print();
-        return;
+      if (pages.length === 0) return null;
+
+      const images: string[] = [];
+      for (const page of pages) {
+        const rect = (page as HTMLElement).getBoundingClientRect();
+        const canvas = await html2canvas(page as HTMLElement, {
+          scale: 3,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          foreignObjectRendering: true,
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+          windowWidth: Math.ceil(rect.width),
+          windowHeight: Math.ceil(rect.height)
+        });
+        images.push(canvas.toDataURL('image/png'));
       }
 
+      return images;
+    } finally {
+      setIsCapturing(false);
+    }
+  };
+
+  const handlePrint = () => {
+    const captureAndPrint = async () => {
       try {
-        const images: string[] = [];
-        for (const page of pages) {
-          const rect = (page as HTMLElement).getBoundingClientRect();
-          const canvas = await html2canvas(page as HTMLElement, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff',
-            logging: false,
-            width: Math.round(rect.width),
-            height: Math.round(rect.height)
-          });
-          images.push(canvas.toDataURL('image/png'));
+        const images = await capturePageImages();
+        if (!images || images.length === 0) {
+          window.print();
+          return;
         }
 
         setPrintImages(images);
@@ -158,6 +177,34 @@ const App: React.FC = () => {
     };
 
     captureAndPrint();
+  };
+
+  const handleExportPdf = async () => {
+    try {
+      const images = await capturePageImages();
+      if (!images || images.length === 0) return;
+
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'in',
+        format: 'letter',
+        compress: true
+      });
+
+      images.forEach((image, index) => {
+        if (index > 0) pdf.addPage('letter', 'portrait');
+        pdf.addImage(image, 'PNG', 0, 0, 8.5, 11, undefined, 'FAST');
+      });
+
+      const safeTitle = (appState.title || 'lexipuzzle')
+        .toLowerCase()
+        .replace(/[^a-z0-9-_]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+      pdf.save(`${safeTitle || 'lexipuzzle'}.pdf`);
+    } catch (err) {
+      console.error('Failed to export PDF:', err);
+    }
   };
 
   const handleRegenerate = () => {
@@ -176,7 +223,7 @@ const App: React.FC = () => {
   if (!isLoaded) return <div className="h-screen flex items-center justify-center">{translate('app.loading')}</div>;
 
   return (
-    <div className={`app-root h-full flex flex-col md:flex-row overflow-hidden bg-gray-100 ${printImages ? 'print-images-ready' : ''} ${debugLayout ? 'debug-layout' : ''}`}>
+    <div className={`app-root h-full flex flex-col md:flex-row overflow-hidden bg-gray-100 ${printImages ? 'print-images-ready' : ''} ${debugLayout ? 'debug-layout' : ''} ${isCapturing ? 'capture-mode' : ''}`}>
       
       {/* Sidebar Controls - No Print */}
       <aside
@@ -413,6 +460,12 @@ const App: React.FC = () => {
              className="flex-1 flex items-center justify-center gap-2 py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
            >
              <Printer size={16} /> {translate('sidebar.print')}
+           </button>
+           <button
+             onClick={handleExportPdf}
+             className="flex-1 flex items-center justify-center gap-2 py-2 px-4 bg-emerald-600 text-white rounded hover:bg-emerald-700 text-sm font-medium"
+           >
+             <FileDown size={16} /> {translate('sidebar.exportPdf')}
            </button>
         </footer>
       </aside>

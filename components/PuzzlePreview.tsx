@@ -77,36 +77,39 @@ const PuzzlePage: React.FC<{
     const downClues = placedWords.filter(w => w.direction === 'down').sort((a,b) => a.number - b.number);
 
     return (
-      <div className="w-full flex flex-col gap-8">
-        <div className="flex justify-center w-full">
-          <div className="grid"
-               style={{ 
-                 gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
-                 width: '100%',
-                 maxWidth: '100%',
-                 aspectRatio: `${width}/${height}`
-               }}>
+      <div className="crossword-layout w-full grid grid-cols-1 md:grid-cols-[1.35fr_1fr] gap-6 items-start">
+        <div className="crossword-grid-wrap w-full">
+          <div
+            className="grid"
+            style={{
+              gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
+              width: '100%',
+              maxWidth: '100%',
+              aspectRatio: `${width}/${height}`
+            }}
+          >
             {grid.flat().map((cell, idx) => {
-               // Find if any word starts here to determine if we show a number.
-               // Since we fixed the coords in puzzleGen, cell.x/y matches placedWords.x/y
-               const startWord = placedWords.find(w => w.x === cell.x && w.y === cell.y);
-               const hasChar = cell.char !== null;
-               
-               return (
-                 <div key={idx} className={`relative flex items-center justify-center
-                   ${hasChar ? 'border border-black bg-white' : ''}`}>
-                   {startWord && <span className="absolute top-0.5 left-0.5 text-[8px] leading-none font-bold z-10">{startWord.number}</span>}
-                   {showAnswerKey && hasChar ? <span className="font-mono font-bold uppercase text-[10px] sm:text-sm">{cell.char}</span> : null}
-                 </div>
-               )
+              // Since puzzleGen returns normalized coordinates, cell.x/y can map directly to start words.
+              const startWord = placedWords.find(w => w.x === cell.x && w.y === cell.y);
+              const hasChar = cell.char !== null;
+
+              return (
+                <div
+                  key={idx}
+                  className={`relative flex items-center justify-center ${hasChar ? 'border border-black bg-white' : ''}`}
+                >
+                  {startWord && <span className="absolute top-0.5 left-0.5 text-[8px] leading-none font-bold z-10">{startWord.number}</span>}
+                  {showAnswerKey && hasChar ? <span className="font-mono font-bold uppercase text-[10px] sm:text-sm">{cell.char}</span> : null}
+                </div>
+              );
             })}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 text-sm">
+        <div className="crossword-clues grid grid-cols-2 md:grid-cols-1 gap-4 text-xs sm:text-sm leading-tight">
           <div>
             <h3 className="font-bold border-b border-black mb-2">{translate('puzzle.across')}</h3>
-            <ul className="list-none space-y-2">
+            <ul className="list-none space-y-1.5">
               {acrossClues.map(w => (
                 <li key={`a-${w.number}`}><strong>{w.number}.</strong> {w.clue}</li>
               ))}
@@ -114,7 +117,7 @@ const PuzzlePage: React.FC<{
           </div>
           <div>
             <h3 className="font-bold border-b border-black mb-2">{translate('puzzle.down')}</h3>
-            <ul className="list-none space-y-2">
+            <ul className="list-none space-y-1.5">
               {downClues.map(w => (
                 <li key={`d-${w.number}`}><strong>{w.number}.</strong> {w.clue}</li>
               ))}

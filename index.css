@@ -75,6 +75,27 @@ body {
   .print-capture {
     display: none !important;
   }
+
+  .print-page-crossword .crossword-layout {
+    display: grid !important;
+    grid-template-columns: 58% 42% !important;
+    gap: 0.18in !important;
+    align-items: start !important;
+  }
+
+  .print-page-crossword .crossword-clues {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.14in !important;
+    font-size: 0.66rem !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .print-page-crossword .crossword-clues ul {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }
 
 .print-only {

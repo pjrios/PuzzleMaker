@@ -80,7 +80,7 @@ body {
 
   .print-page-crossword .crossword-below {
     display: grid !important;
-    grid-template-rows: 4in 3in !important;
+    grid-template-rows: 6in 2in !important;
     gap: 0.03in !important;
     height: 100% !important;
     overflow: hidden !important;
@@ -90,6 +90,8 @@ body {
     display: grid !important;
     grid-template-rows: auto minmax(0, 1fr) !important;
     padding-top: 0.44in !important;
+    padding-left: 0.44in !important;
+    padding-right: 0.44in !important;
   }
 
   .print-page-crossword .page-header {
@@ -113,14 +115,14 @@ body {
     align-items: flex-end !important;
     justify-content: center !important;
     flex: 1 1 auto !important;
-    height: 4in !important;
+    height: 6in !important;
     min-height: 0 !important;
     overflow: hidden !important;
   }
 
   .print-page-crossword .crossword-grid {
     width: auto !important;
-    height: 4in !important;
+    height: 6in !important;
     max-width: 100% !important;
     max-height: 100% !important;
     margin: 0 auto !important;
@@ -130,9 +132,9 @@ body {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 0.12in !important;
-    font-size: 0.62rem !important;
-    line-height: 1.15 !important;
-    height: 3in !important;
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    height: 2in !important;
     overflow: hidden !important;
     overflow-wrap: anywhere;
   }
@@ -140,6 +142,12 @@ body {
   .print-page-crossword .crossword-clues ul {
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  .print-page-crossword .crossword-clues h3 {
+    line-height: 1.1 !important;
+    padding-bottom: 0.04in !important;
+    margin-bottom: 0.06in !important;
   }
 }
 
@@ -201,7 +209,7 @@ body {
 
 .print-page-crossword .crossword-below {
   display: grid !important;
-  grid-template-rows: 4in 3in !important;
+  grid-template-rows: 6in 2in !important;
   gap: 0.03in !important;
   height: 100% !important;
   overflow: hidden !important;
@@ -211,6 +219,8 @@ body {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr) !important;
   padding-top: 0.44in !important;
+  padding-left: 0.44in !important;
+  padding-right: 0.44in !important;
 }
 
 .print-page-crossword .page-header {
@@ -234,14 +244,14 @@ body {
   align-items: flex-end !important;
   justify-content: center !important;
   flex: 1 1 auto !important;
-  height: 4in !important;
+  height: 6in !important;
   min-height: 0 !important;
   overflow: hidden !important;
 }
 
 .print-page-crossword .crossword-grid {
   width: auto !important;
-  height: 4in !important;
+  height: 6in !important;
   max-width: 100% !important;
   max-height: 100% !important;
   margin: 0 auto !important;
@@ -251,9 +261,9 @@ body {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
   gap: 0.12in !important;
-  font-size: 0.62rem !important;
-  line-height: 1.15 !important;
-  height: 3in !important;
+  font-size: 0.8rem !important;
+  line-height: 1.2 !important;
+  height: 2in !important;
   overflow: hidden !important;
   overflow-wrap: anywhere !important;
 }
@@ -261,6 +271,12 @@ body {
 .print-page-crossword .crossword-clues ul {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+.print-page-crossword .crossword-clues h3 {
+  line-height: 1.1 !important;
+  padding-bottom: 0.04in !important;
+  margin-bottom: 0.06in !important;
 }
 
 .print-images {

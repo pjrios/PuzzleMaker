@@ -55,9 +55,9 @@ const PuzzlePage: React.FC<{
             <h3 className="font-bold border-b-2 border-black mb-4 pb-1">{translate('puzzle.wordBank')}</h3>
             <div className="wordbank-grid grid grid-cols-3 gap-4 text-sm">
               {vocabList.map(w => (
-                <div key={w.id} className="flex items-center gap-2">
-                  <div className="w-4 h-4 border border-black"></div>
-                  <span>{w.word}</span>
+                <div key={w.id} className="flex items-center gap-2 min-h-4">
+                  <div className="w-4 h-4 border border-black flex-shrink-0"></div>
+                  <span className="block leading-none">{w.word}</span>
                 </div>
               ))}
             </div>

@@ -32,6 +32,7 @@ const App: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [printImages, setPrintImages] = useState<string[] | null>(null);
   const printCaptureRef = useRef<HTMLDivElement | null>(null);
+  const previewCaptureRef = useRef<HTMLDivElement | null>(null);
   const [openSection, setOpenSection] = useState<'input' | 'header' | 'settings' | null>('input');
   const [sidebarWidth, setSidebarWidth] = useState(384);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -122,17 +123,47 @@ const App: React.FC = () => {
     };
   }, []);
 
+  const waitForAssets = async (root: HTMLElement) => {
+    if (document.fonts?.ready) await document.fonts.ready;
+
+    const images = Array.from(root.querySelectorAll('img')) as HTMLImageElement[];
+    await Promise.all(
+      images.map(async (img) => {
+        try {
+          if (img.complete && img.naturalWidth > 0) return;
+          if (typeof img.decode === 'function') {
+            await img.decode();
+          } else {
+            await new Promise<void>((resolve) => {
+              const onDone = () => resolve();
+              img.addEventListener('load', onDone, { once: true });
+              img.addEventListener('error', onDone, { once: true });
+            });
+          }
+        } catch {
+          // Ignore image decode failures; canvas will still render best-effort.
+        }
+      })
+    );
+  };
+
   const capturePageImages = async (): Promise<string[] | null> => {
-    if (!printCaptureRef.current) return null;
+    const previewRoot = previewCaptureRef.current;
+    const printRoot = printCaptureRef.current;
+    if (!previewRoot && !printRoot) return null;
 
     setIsCapturing(true);
     try {
-      // Ensure web fonts and layout are fully resolved before rasterizing.
-      if (document.fonts?.ready) await document.fonts.ready;
+      const sourceRoot = previewRoot || printRoot!;
+      await waitForAssets(sourceRoot);
       await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
-      await new Promise((resolve) => setTimeout(resolve, 40));
+      await new Promise((resolve) => setTimeout(resolve, 60));
 
-      const pages = Array.from(printCaptureRef.current.querySelectorAll('.print-page'));
+      // Prefer the visible preview pages for WYSIWYG export/print.
+      let pages = Array.from(sourceRoot.querySelectorAll('.print-page'));
+      if (pages.length === 0 && printRoot && sourceRoot !== printRoot) {
+        pages = Array.from(printRoot.querySelectorAll('.print-page'));
+      }
       if (pages.length === 0) return null;
 
       const images: string[] = [];
@@ -143,11 +174,8 @@ const App: React.FC = () => {
           useCORS: true,
           backgroundColor: '#ffffff',
           logging: false,
-          foreignObjectRendering: true,
           width: Math.round(rect.width),
-          height: Math.round(rect.height),
-          windowWidth: Math.ceil(rect.width),
-          windowHeight: Math.ceil(rect.height)
+          height: Math.round(rect.height)
         });
         images.push(canvas.toDataURL('image/png'));
       }
@@ -188,12 +216,12 @@ const App: React.FC = () => {
         orientation: 'portrait',
         unit: 'in',
         format: 'letter',
-        compress: true
+        compress: false
       });
 
       images.forEach((image, index) => {
         if (index > 0) pdf.addPage('letter', 'portrait');
-        pdf.addImage(image, 'PNG', 0, 0, 8.5, 11, undefined, 'FAST');
+        pdf.addImage(image, 'PNG', 0, 0, 8.5, 11, undefined, 'NONE');
       });
 
       const safeTitle = (appState.title || 'lexipuzzle')
@@ -480,7 +508,7 @@ const App: React.FC = () => {
 
       {/* Main Preview Area */}
       <main className="flex-1 overflow-auto bg-gray-200 relative print-hide">
-        <div className="min-h-full p-8 flex justify-center items-start">
+        <div ref={previewCaptureRef} className="min-h-full p-8 flex justify-center items-start">
           <PuzzlePreview state={appState} locale={locale} />
         </div>
       </main>
